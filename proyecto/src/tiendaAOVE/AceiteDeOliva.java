@@ -7,8 +7,8 @@ public class AceiteDeOliva extends Producto{
 	public AceiteDeOliva(String nombre, Double precio, int stock, int valoracion, TIPOACEITUNA tipoAceituna,
 			String procedencia) {
 		super(nombre, precio, stock, valoracion);
-		this.tipoAceituna = tipoAceituna;
-		this.procedencia = procedencia;
+		setTipoAceituna(tipoAceituna);
+		setProcedencia(procedencia);
 	}
 
 	public TIPOACEITUNA getTipoAceituna() {
@@ -28,6 +28,11 @@ public class AceiteDeOliva extends Producto{
 			throw new IllegalArgumentException("No puede estar en blanco");
 		}
 		this.procedencia = procedencia;
+	}
+
+	@Override
+	public String toString() {
+		return "AceiteDeOliva [tipoAceituna=" + tipoAceituna + ", procedencia=" + procedencia + ", " + super.toString() + "]";
 	}
 	
 	
