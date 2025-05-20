@@ -1,10 +1,14 @@
 package tiendaAOVE;
 
-public class Producto {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Producto {
 	private String nombre;
 	private Double precio;
 	private int stock;
 	private int valoracion;
+	private ArrayList<Producto> valoraciones = new ArrayList<>();
 	
 	public Producto(String nombre, Double precio, int stock, int valoracion) {
 		super();
@@ -48,8 +52,7 @@ public class Producto {
 
 	@Override
 	public String toString() {
-		return "Producto [nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", valoracion=" + valoracion
-				+ "]";
+		return "Producto [nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", valoraciones=" + valoraciones.toString() + "]";
 	}
 	
 	
