@@ -1,5 +1,7 @@
 package tiendaAOVE;
 
+import java.util.Objects;
+
 public class Cliente {
 	private String email;
 	private int contrasenia;
@@ -120,6 +122,23 @@ public class Cliente {
 			System.out.println("El teléfono debe tener exactamente 9 dígitos.");
 		}
 	}
-	
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(contrasenia);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		return contrasenia == other.contrasenia;
+	}
+	
+	
 }
