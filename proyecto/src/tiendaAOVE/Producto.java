@@ -1,7 +1,6 @@
 package tiendaAOVE;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Producto {
 	private String nombre;
@@ -23,6 +22,9 @@ public abstract class Producto {
 	}
 
 	public void setNombre(String nombre) {
+		if(nombre.length() < 4 || nombre.length() > 20 || nombre.isBlank() || nombre.isEmpty()) {
+			throw new IllegalArgumentException("No puede tener menos de 4 ni mas de 20 caracteres");
+		}
 		this.nombre = nombre;
 	}
 
@@ -31,6 +33,9 @@ public abstract class Producto {
 	}
 
 	public void setPrecio(Double precio) {
+		if(precio > 0) {
+			throw new IllegalArgumentException("Tiene que ser mayor de 0");
+		}
 		this.precio = precio;
 	}
 
@@ -39,6 +44,9 @@ public abstract class Producto {
 	}
 
 	public void setStock(int stock) {
+		if(stock > 0) {
+			throw new IllegalArgumentException("Tiene que ser mayor de 0");
+		}
 		this.stock = stock;
 	}
 
@@ -47,6 +55,9 @@ public abstract class Producto {
 	}
 
 	public void setValoracion(int valoracion) {
+		if(valoracion > -1 || valoracion < 11) {
+			throw new IllegalArgumentException("Tiene que ser mayor de 0 y menor de 11");
+		}
 		this.valoracion = valoracion;
 	}
 
