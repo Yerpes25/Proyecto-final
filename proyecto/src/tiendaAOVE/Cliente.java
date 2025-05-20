@@ -32,7 +32,7 @@ public class Cliente {
 
 	public void setEmail(String email) {
 			if (email.isBlank() || email.isEmpty() || email == null) {
-				System.out.println("No puede estar el email en blanco");
+				throw new IllegalArgumentException("No puede estar el email en blanco");
 			}
 			this.email = email;
 	}
