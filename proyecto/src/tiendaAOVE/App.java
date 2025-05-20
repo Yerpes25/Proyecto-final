@@ -36,11 +36,13 @@ public class App {
 			case 5: 
 				mostrarPedidos();
 				break;
+			case 6: 
+				System.out.println("Has salido");
 			default:
 				System.out.println("Opcion no valida.");
 			}
 			System.out.println("***************************\n");
-		} while (opcion != 3);
+		} while (opcion != 6);
 	}
 
 	private static void aniadirCliente() {
@@ -147,7 +149,7 @@ public class App {
 			return;
 		}
 
-		Producto producto = productos.get(seleccion - 1);
+		Producto producto = productos.get(seleccion);
 
 		if (producto.getStock() <= 0) {
 			System.out.println("No hay stock disponible");
@@ -162,4 +164,17 @@ public class App {
 		System.out.println("Producto comprado correctamente.");
 	}
 
+	private static void mostrarPedidos() {
+		if (clienteAutenticado == null) {
+			System.out.println("No hay ningun cliente autenticado.");
+			return;
+		}
+
+		System.out.println("********** Tus pedidos **********");
+		for (Pedido p : pedidos) {
+			if (p.getCliente().equals(clienteAutenticado)) {
+				System.out.println(p);
+			}
+		}
+	}
 }
