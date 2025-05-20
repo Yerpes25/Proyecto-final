@@ -1,13 +1,13 @@
 package tiendaAOVE;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Producto {
 	private String nombre;
 	private Double precio;
 	private int stock;
 	private int valoracion;
-	private ArrayList<Producto> valoraciones = new ArrayList<>();
+	private HashMap<Cliente, Integer> valoraciones = new HashMap<>();
 	
 	public Producto(String nombre, Double precio, int stock, int valoracion) {
 		super();
@@ -59,6 +59,17 @@ public abstract class Producto {
 			throw new IllegalArgumentException("Tiene que ser mayor de 0 y menor de 11");
 		}
 		this.valoracion = valoracion;
+	}
+	
+	public HashMap<Cliente, Integer> getValoraciones() {
+		return valoraciones;
+	}
+	
+	public void addValoracion(Cliente cliente, int puntuacion) {
+		if (puntuacion < 0 || puntuacion > 10) {
+			throw new IllegalArgumentException("La puntuación debe estar entre 0 y 10.");
+		}
+		valoraciones.put(cliente, puntuacion);
 	}
 
 	@Override
