@@ -2,21 +2,26 @@ package tiendaAOVE;
 
 public class Cliente {
 	private String email;
-	private String contraseña;
+	private int contrasenia;
 	private String nombre;
 	private String apellidos;
 	private String dni;
 	private String telefono;
+	
 
-	public Cliente(String email, String contraseña, String nombre, String apellidos, String dni, String telefono) {
+	public Cliente(String email, String contrasenia, String nombre, String apellidos, String dni, String telefono) {
 		super();
+		try {
+		int codigoHash = contrasenia.hashCode();
 		setEmail(email);
-		setContraseña(contraseña);
+		setContraseña(codigoHash);
 		setNombre(nombre);
 		setApellidos(apellidos);
 		setDni(dni);
-		this.telefono = telefono;
-		int codigoHash = contraseña.hashCode();
+		setTelefono(telefono);
+		}catch(Exception e) {
+			System.out.println("Error.- " + e.getMessage());
+		}
 	}
 
 	public String getEmail() {
@@ -24,29 +29,18 @@ public class Cliente {
 	}
 
 	public void setEmail(String email) {
-		try {
 			if (email.isBlank() || email.isEmpty() || email == null) {
 				System.out.println("No puede estar el email en blanco");
 			}
 			this.email = email;
-		} catch (Exception e) {
-			System.out.println("Error.-" + e.getMessage());
-		}
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public int getContrasenia() {
+		return contrasenia;
 	}
 
-	public void setContraseña(String contraseña) {
-		try {
-			if (contraseña.isBlank() || contraseña.isEmpty() || contraseña == null) {
-				System.out.println("No puede estar la contraseña en blanco");
-			}
-			this.contraseña = contraseña;
-		} catch (Exception c) {
-			System.out.println("Error.- " + c.getMessage());
-		}
+	public void setContraseña(int contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	public String getNombre() {
@@ -108,13 +102,24 @@ public class Cliente {
 		return telefono;
 	}
 
-//	public void setTelefono(String telefono) {
-//		for(int i = 0; i < telefono.length(); i++) {
-//			int posicionNumeros = telefono.charAt(i);
-//			String numero
-//		}
-//		this.telefono = telefono;
-//	}
+	public void setTelefono(String telefono) {
+		if (telefono.length() == 9) {
+			boolean comprobacion = true;
+			for (int i = 0; i < telefono.length(); i++) {
+				if (!Character.isDigit(telefono.charAt(i))) {
+					comprobacion = false;
+					break;
+				}
+			}
+			if (comprobacion) {
+				this.telefono = telefono;
+			} else {
+				System.out.println("El teléfono debe contener solo numeros.");
+			}
+		} else {
+			System.out.println("El teléfono debe tener exactamente 9 dígitos.");
+		}
+	}
 	
 
 }
