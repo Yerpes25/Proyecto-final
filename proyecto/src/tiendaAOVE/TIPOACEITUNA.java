@@ -1,0 +1,5 @@
+package tiendaAOVE;
+
+public enum TIPOACEITUNA {
+	PICUAL,HOJIBLANCA,CORNICABRA,ARBEQUINA
+}
