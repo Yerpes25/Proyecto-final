@@ -1,37 +1,43 @@
 package tiendaAOVE;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pedido {
     private Cliente cliente;
-    private ArrayList<Producto> productos;
+    private HashMap<Producto, Integer> productos;
     private double total;
-    private Date fecha;
+    private LocalDateTime fecha;
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
-        this.productos = new ArrayList<>();
+        this.productos = new HashMap<>();
         this.total = 0.0;
+        this.fecha = LocalDateTime.now();
     }
 
-    public void agregarProducto(Producto producto) {
-        if (producto.getStock() <= 0) {
-            System.out.println("No hay stock del producto: " + producto.getNombre());
+    public void agregarProducto(Producto producto, int cantidad) {
+        if (producto.getStock() < cantidad) {
+            System.out.println("Stock insuficiente para el producto: " + producto.getNombre());
             return;
         }
-        productos.add(producto);
-        for(int i = 0; i < productos.size(); i++) {
-        	total = total + producto.getPrecio();
-            producto.setStock(producto.getStock() - 1);
+
+        if (productos.containsKey(producto)) { //containsKey para ver si esta en producto
+            productos.put(producto, productos.get(producto) + cantidad); //put para añadirlo
+        } else {
+            productos.put(producto, cantidad);
         }
+
+        producto.setStock(producto.getStock() - cantidad);
+        total += producto.getPrecio() * cantidad;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public ArrayList<Producto> getProductos() {
+    public Map<Producto, Integer> getProductos() {
         return productos;
     }
 
@@ -41,6 +47,6 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" + productos + "]";
+        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" + productos + "fecha= " + fecha + ", Total=" + total + "]";
     }
 }
