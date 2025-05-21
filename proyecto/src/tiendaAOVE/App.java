@@ -159,7 +159,7 @@ public class App {
 
 	    while (true) {
 	        mostrarProductos();
-	        System.out.print("Selecciona el numero del producto que quieres comprar /n");
+	        System.out.print("Selecciona el numero del producto que quieres comprar \n");
 	        System.out.println("Si quieres terminar pulsa 0");
 	        int seleccion = Integer.parseInt(entrada.nextLine());
 
@@ -192,7 +192,7 @@ public class App {
 	    } else {
 	        pedidos.add(pedido);
 	        System.out.println("Pedido completado");
-	        System.out.println(pedido);
+	        System.out.println(pedido.toString());
 	    }
 	}
 
