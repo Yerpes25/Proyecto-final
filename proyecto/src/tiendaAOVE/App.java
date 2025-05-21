@@ -159,29 +159,47 @@ public class App {
 			return;
 		}
 
-		mostrarProductos();
-		System.out.print("Seleccione el numero del que quieres comprar: ");
-		int seleccion = Integer.parseInt(entrada.nextLine());
+	    Pedido pedido = new Pedido(clienteAutenticado); 
 
-		if (seleccion < 1 || seleccion > productos.size()) {
-			System.out.println("No puedes elegir esa seleccion");
-			return;
-		}
+	    while (true) {
+	        mostrarProductos();
+	        System.out.print("Selecciona el numero del producto que quieres comprar /n");
+	        System.out.println("Si quieres terminar pulsa 0");
+	        int seleccion = Integer.parseInt(entrada.nextLine());
 
-		Producto producto = productos.get(seleccion);
+	        if (seleccion == 0) {
+	        	break;
+	        }
 
-		if (producto.getStock() <= 0) {
-			System.out.println("No hay stock disponible");
-			return;
-		}
+	        if (seleccion < 1 || seleccion > productos.size()) {
+	            System.out.println("No puedes elegir esa seleccion");
+	        }
 
-		producto.setStock(producto.getStock() - 1);
+	        Producto producto = productos.get(seleccion - 1);
+	        System.out.print("¿Cuantas unidades quieres de " + producto.getNombre() + "?: ");
+	        int cantidad = Integer.parseInt(entrada.nextLine());
 
-		Pedido pedido = new Pedido(clienteAutenticado);
-		pedido.agregarProducto(producto);
-		pedidos.add(pedido);
-		System.out.println("Producto comprado correctamente.");
+	        if (cantidad <= 0) {
+	            System.out.println("No se puede esa cantidad");
+	        }
+
+	        if (producto.getStock() < cantidad) {
+	            System.out.println("Stock insuficiente ya que hay " + producto.getStock());
+	        }
+
+	        pedido.agregarProducto(producto, cantidad);
+	        System.out.println("Producto añadido al pedido.");
+	    }
+
+	    if (pedido.getProductos().isEmpty()) {
+	        System.out.println("No se ha añadido ningun producto, el pedido no se ha podido hacer");
+	    } else {
+	        pedidos.add(pedido);
+	        System.out.println("Pedido completado");
+	        System.out.println(pedido);
+	    }
 	}
+
 
 	private static void mostrarPedidos() {
 		if (clienteAutenticado == null) {
