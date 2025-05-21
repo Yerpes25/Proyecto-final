@@ -47,6 +47,6 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" + productos + "fecha= " + fecha + ", Total=" + total + "]";
+        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" + productos + "fecha= " + fecha + ", Total=" + total + "]\n";
     }
 }
