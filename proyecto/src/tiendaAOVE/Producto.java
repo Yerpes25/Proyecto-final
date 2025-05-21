@@ -44,7 +44,7 @@ public abstract class Producto {
 	}
 
 	public void setStock(int stock) {
-		if(stock > 0) {
+		if(stock <= 0) {
 			throw new IllegalArgumentException("Tiene que ser mayor de 0");
 		}
 		this.stock = stock;
@@ -74,7 +74,7 @@ public abstract class Producto {
 
 	@Override
 	public String toString() {
-		return "Producto [nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", valoraciones=" + valoraciones.toString() + "]";
+		return "Producto [nombre=" + nombre + ", precio=" + precio + ", stock=" + stock + ", valoraciones=" + valoraciones.toString() + "]\n";
 	}
 	
 	
