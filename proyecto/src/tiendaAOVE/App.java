@@ -154,10 +154,6 @@ public class App {
 	}
 
 	private static void comprarProducto() {
-		if (clienteAutenticado == null) {
-			System.out.println("No hay ningun cliente autenticado.");
-			return;
-		}
 
 	    Pedido pedido = new Pedido(clienteAutenticado); 
 
