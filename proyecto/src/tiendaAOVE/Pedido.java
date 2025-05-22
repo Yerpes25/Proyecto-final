@@ -3,8 +3,12 @@ package tiendaAOVE;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Pedido {
+	
+	Scanner entrada = new Scanner(System.in);
+	
     private Cliente cliente;
     private HashMap<Producto, Integer> productos;
     private double total;
@@ -21,6 +25,18 @@ public class Pedido {
         if (producto.getStock() < cantidad) {
             System.out.println("Stock insuficiente para el producto: " + producto.getNombre());
             return;
+            
+        }
+        
+        double precioFinal = producto.getPrecio();
+        
+        if (producto instanceof AceiteAromatizado || producto instanceof ProductosCosmetica) {
+            System.out.print("Mete el porcentaje de descuento para " + producto.getNombre());
+            int descuento = Integer.parseInt(entrada.nextLine());
+            
+            if (descuento > 0 && descuento <= 100) {
+                precioFinal = producto.getPrecio() * (1 - descuento / 100.0);
+            }
         }
 
         if (productos.containsKey(producto)) { //containsKey para ver si esta en producto
@@ -30,7 +46,7 @@ public class Pedido {
         }
 
         producto.setStock(producto.getStock() - cantidad);
-        total += producto.getPrecio() * cantidad;
+        total += precioFinal * cantidad;
     }
 
     public Cliente getCliente() {
@@ -47,6 +63,7 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" + productos + "fecha= " + fecha + ", Total=" + total + "]\n";
+        return "Pedido [cliente=" + cliente.getEmail() + ", total=" + total + ", productos=" 
+    + productos + "fecha= " + fecha + ", Precio final con porcentaje si lo tuviera" + total + "]\n";
     }
 }
