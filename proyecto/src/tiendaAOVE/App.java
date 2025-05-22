@@ -19,6 +19,8 @@ public class App {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		precargarProductos();
+		Cliente c = new Cliente("administrador", "admin", "admin", "admin", "11111111A", "123123123");
+		clientes.add(c);
 		int opcion;
 		do {
 			menu();
@@ -39,19 +41,27 @@ public class App {
 				comprarProducto();
 				break;
 			case 5:
-				mostrarPedidos();
+				valorarProductos();
 				break;
 			case 6:
-				sacarDatos();
+				mostrarPedidos();
 				break;
 			case 7:
+				mostrarEstadisticas();
+				break;
+			case 8:
+				sacarDatos();
+				break;
+			case 9:
 				meterDatos();
 				break;
+			case 10: 
+				System.out.println("Has salido");
 			default:
 				System.out.println("Opcion no valida.");
 			}
 			System.out.println("***************************\n");
-		} while (opcion != 6);
+		} while (opcion != 10);
 	}
 
 	private static void aniadirCliente() {
@@ -94,10 +104,11 @@ public class App {
 		System.out.println("2.- Iniciar sesion");
 		System.out.println("3.- Mostrar productos");
 		System.out.println("4.- Comprar producto");
-		System.out.println("5.- Mostrar pedidos");
-		System.out.println("6.- Guardar Datos en archivo");
-		System.out.println("7.- Meter datos en archivo .ser");
-		System.out.println("6.- Salir");
+		System.out.println("5.- Añadir valoraciones a los productos");
+		System.out.println("6.- Mostrar pedidos");
+		System.out.println("7.- Guardar Datos en archivo");
+		System.out.println("8.- Meter datos en archivo .ser");
+		System.out.println("9.- Salir");
 		System.out.println("************************");
 	}
 
@@ -195,6 +206,68 @@ public class App {
 	        System.out.println(pedido.toString());
 	    }
 	}
+	
+	private static void mostrarEstadisticas() {
+	    if (clienteAutenticado == null || !clienteAutenticado.getEmail().equals("administrador")) {
+	        System.out.println("Acceso denegado, es solo para administradores.");
+	        return;
+	    }
+
+	    if (productos.isEmpty()) {
+	        System.out.println("No hay productos para mostrar estadisticas.");
+	        return;
+	    }
+	}
+	
+	private static void valorarProductos() {
+	    if (clienteAutenticado == null) {
+	        System.out.println("Debes iniciar sesión para valorar productos.");
+	        return;
+	    }
+
+	    System.out.println("**** Productos que has comprado ****");
+	    ArrayList<Producto> productosComprados = new ArrayList<>();
+	    
+	    for (Pedido p : pedidos) {
+	        if (p.getCliente().equals(clienteAutenticado)) {
+	            productosComprados.addAll(p.getProductos().keySet());
+	        }
+	    }
+
+	    if (productosComprados.isEmpty()) {
+	        System.out.println("No has comprado todavia productos");
+	        return;
+	    }
+
+	    for (int i = 0; i < productosComprados.size(); i++) {
+	        System.out.println((i + 1) + ". " + productosComprados.get(i).getNombre());
+	    }
+
+	    System.out.print("Selecciona un producto que quieres valorar (0 si quieres cancelar): ");
+	    int seleccion = Integer.parseInt(entrada.nextLine());
+	    
+	    if (seleccion == 0) {
+	    	return;
+	    }
+	    
+	    if (seleccion < 1 || seleccion > productosComprados.size()) {
+	        System.out.println("Esa seleccion no se puede");
+	        return;
+	    }
+
+	    Producto producto = productosComprados.get(seleccion - 1);
+	    
+	    System.out.print("Ingresa tu valoracion del 0 al 10 para " + producto.getNombre() + ": ");
+	    int valoracion = Integer.parseInt(entrada.nextLine());
+	    
+	    try {
+	        producto.addValoracion(clienteAutenticado, valoracion);
+	        System.out.println("Valoracion añadida");
+	    } catch (IllegalArgumentException e) {
+	        System.out.println("Error: " + e.getMessage());
+	    }
+	}
+
 
 
 	private static void mostrarPedidos() {
