@@ -33,7 +33,7 @@ public abstract class Producto {
 	}
 
 	public void setPrecio(Double precio) {
-		if(precio > 0) {
+		if(precio <= 0) {
 			throw new IllegalArgumentException("Tiene que ser mayor de 0");
 		}
 		this.precio = precio;
@@ -55,7 +55,7 @@ public abstract class Producto {
 	}
 
 	public void setValoracion(int valoracion) {
-		if(valoracion > -1 || valoracion < 11) {
+		if(valoracion < -1 || valoracion > 11) {
 			throw new IllegalArgumentException("Tiene que ser mayor de 0 y menor de 11");
 		}
 		this.valoracion = valoracion;
