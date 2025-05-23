@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tienda {
     private ArrayList<Producto> productos;
-    private ArrayList<Cliente> clientes;
+    private ArrayList<Cliente> clientes;		//Estos tambien para guardar
     private ArrayList<Pedido> pedidos;
 
     public Tienda() {
