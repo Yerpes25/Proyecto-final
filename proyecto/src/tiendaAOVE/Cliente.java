@@ -27,8 +27,6 @@ public class Cliente implements Serializable{
 		this.telefono = telefono;
 	}
 	
-	
-
 	public Cliente() {
 		super();
 	}

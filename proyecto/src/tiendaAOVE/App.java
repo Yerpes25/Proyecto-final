@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class App {
@@ -251,9 +252,9 @@ public class App {
 		System.out.println("El producto mas caro es " + masCaro + "\n");
 		System.out.println("El mas barato es " + masBarato + "\n");
 
-//		Producto mejorValorado = null;
-//		
-//		HashMap<Cliente, Integer> valoraciones = ;
+		Collections.sort(productos, new ComparadorMedia());
+		System.out.println("Producto con la mejor media: " + productos.get(productos.size() -1 ).getNombre());
+		System.out.println("Producto con la peor media: " + productos.get(0));
 	}
 
 	private static void valorarProductos() {
