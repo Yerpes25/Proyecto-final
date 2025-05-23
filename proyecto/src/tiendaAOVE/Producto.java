@@ -7,7 +7,7 @@ public abstract class Producto {
 	private Double precio;
 	private int stock;
 	private int valoracion;
-	private HashMap<Cliente, Integer> valoraciones = new HashMap<>();
+	private HashMap<Cliente, Integer> valoraciones = new HashMap<>(); //Aqui lo echo para que no repitan las valoraciones los clientes
 	
 	public Producto(String nombre, Double precio, int stock, int valoracion) {
 		super();
