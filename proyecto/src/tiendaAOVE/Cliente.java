@@ -18,18 +18,13 @@ public class Cliente implements Serializable{
 
 	public Cliente(String email, String contrasenia, String nombre, String apellidos, String dni, String telefono) {
 		super();
-		try {
-			
 		int codigoHash = contrasenia.hashCode();
 		this.email = email;
 		this.contrasenia = codigoHash;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.dni = dni;
-		setTelefono(telefono);
-		}catch(Exception e) {
-			System.out.println("Error.- " + e.getMessage());
-		}
+		this.telefono = telefono;
 	}
 	
 	
