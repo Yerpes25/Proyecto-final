@@ -1,5 +1,4 @@
 package tiendaAOVE;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -65,35 +64,48 @@ public class App {
 	}
 
 	private static void aniadirCliente() {
-		if (clienteAutenticado == null) {
-			System.out.println("Dime el nombre");
-			String nombre = entrada.nextLine();
+		try {
+			if (clienteAutenticado == null) {
+				Cliente c = new Cliente(); 
+				System.out.println("Dime el nombre");
+				String nombre = entrada.nextLine();
+				if(c.setNombre(nombre) == false) throw new IllegalArgumentException("El nombre no puede estar en blanco");
 
-			System.out.println("Dime los apellidos");
-			String apellidos = entrada.nextLine();
+				System.out.println("Dime los apellidos");
+				String apellidos = entrada.nextLine();
+				if(c.setApellidos(apellidos) == false) throw new IllegalArgumentException("Los apellidos no puede estar en blanco");
 
-			System.out.println("Dime el dni");
-			String dni = entrada.nextLine();
+				System.out.println("Dime el dni");
+				String dni = entrada.nextLine();
+				if(c.setDni(dni) == false) throw new IllegalArgumentException("El dni no es válido");
 
-			System.out.println("Dime el telefono");
-			String telefono = entrada.nextLine();
+				System.out.println("Dime el telefono");
+				String telefono = entrada.nextLine();
+				if(c.setTelefono(telefono) == false) throw new IllegalArgumentException("El telefono no es valido");
 
-			System.out.println("Dime el email");
-			String email = entrada.nextLine();
 
-			if (buscarClientePorEmail(email) != null) {
-				System.out.println("Ya existe un cliente con ese email.");
-				return;
+				System.out.println("Dime el email");
+				String email = entrada.nextLine();
+				if(c.setEmail(email) == false) throw new IllegalArgumentException("El email no puede estar en blanco");
+
+				if (buscarClientePorEmail(email) != null) {
+					System.out.println("Ya existe un cliente con ese email.");
+					return;
+				}
+
+				System.out.println("Dime la contraseña");
+				String contrasenia = entrada.nextLine();
+				if(contrasenia.isBlank() || contrasenia.isEmpty()) throw new IllegalArgumentException("El apellido no puede estar en blanco");
+				
+				Cliente c1 = new Cliente(email, contrasenia, nombre, apellidos, dni, telefono);
+				clientes.add(c1);
+				System.out.println("Se ha añadido correctamente");
+
+			} else {
+				System.out.println("Ya has inciado sesionº");
 			}
-
-			System.out.println("Dime la contraseña");
-			String contrasenia = entrada.nextLine();
-
-			Cliente c = new Cliente(email, contrasenia, nombre, apellidos, dni, telefono);
-			clientes.add(c);
-			System.out.println("Se ha añadido correctamente");
-		} else {
-			System.out.println("Ya has inciado sesionº");
+		} catch (IllegalArgumentException IAE) {
+			System.out.println("Error.- " + IAE.getMessage());
 		}
 
 	}
@@ -165,6 +177,10 @@ public class App {
 	}
 
 	private static void comprarProducto() {
+		if (clienteAutenticado == null || !clienteAutenticado.getEmail().equals("administrador")) {
+			System.out.println("Acceso denegado, es solo para administradores.");
+			return;
+		}
 
 		Pedido pedido = new Pedido(clienteAutenticado);
 
@@ -217,7 +233,7 @@ public class App {
 			System.out.println("No hay productos para mostrar estadisticas.");
 			return;
 		}
-		
+
 		Producto masCaro = productos.get(0);
 		Producto masBarato = productos.get(0);
 
@@ -226,12 +242,18 @@ public class App {
 				masCaro = p;
 			}
 		}
-		
-		for (Producto p: productos) {
-			if(p.getPrecio() < masBarato.getPrecio()) {
+
+		for (Producto p : productos) {
+			if (p.getPrecio() < masBarato.getPrecio()) {
 				masBarato = p;
 			}
 		}
+		System.out.println("El producto mas caro es " + masCaro + "\n");
+		System.out.println("El mas barato es " + masBarato + "\n");
+
+//		Producto mejorValorado = null;
+//		
+//		HashMap<Cliente, Integer> valoraciones = ;
 	}
 
 	private static void valorarProductos() {
