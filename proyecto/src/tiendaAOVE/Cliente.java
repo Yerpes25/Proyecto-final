@@ -19,34 +19,43 @@ public class Cliente implements Serializable{
 	public Cliente(String email, String contrasenia, String nombre, String apellidos, String dni, String telefono) {
 		super();
 		try {
+			
 		int codigoHash = contrasenia.hashCode();
-		setEmail(email);
-		setContraseña(codigoHash);
-		setNombre(nombre);
-		setApellidos(apellidos);
-		setDni(dni);
+		this.email = email;
+		this.contrasenia = codigoHash;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
 		setTelefono(telefono);
 		}catch(Exception e) {
 			System.out.println("Error.- " + e.getMessage());
 		}
 	}
+	
+	
+
+	public Cliente() {
+		super();
+	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public boolean setEmail(String email) {
 			if (email.isBlank() || email.isEmpty() || email == null) {
-				throw new IllegalArgumentException("No puede estar el email en blanco");
+				return false;
 			}
-			this.email = email;
+			return true;
 	}
 
 	public int getContrasenia() {
 		return contrasenia;
 	}
 
-	public void setContraseña(int contrasenia) {
+	public void setContrasenia(int contrasenia) {
 		this.contrasenia = contrasenia;
 	}
 
@@ -54,37 +63,29 @@ public class Cliente implements Serializable{
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		try {
+	public boolean setNombre(String nombre) {
 			if (nombre.isBlank() || nombre.isEmpty()) {
-				System.out.println("El nombre no puede estar en blanco");
+				return false;
 			}
-		} catch (Exception n) {
-			System.out.println("Error.- " + n.getMessage());
-		}
-		this.nombre = nombre;
+		return true;
 	}
 
 	public String getApellidos() {
 		return apellidos;
 	}
 
-	public void setApellidos(String apellidos) {
-		try {
+	public boolean setApellidos(String apellidos) {
 			if (apellidos.isBlank() || apellidos.isEmpty()) {
-				System.out.println("Los apellidos no puede estar en blanco");
+				return false;
 			}
-		} catch (Exception a) {
-			System.out.println("Error.- " + a.getMessage());
-		}
-		this.apellidos = apellidos;
+		return true;
 	}
 
 	public String getDni() {
 		return dni;
 	}
 
-	public void setDni(String dni) {
+	public boolean setDni(String dni) {
 		if (dni.length() == 9) {
 			int digitos = Integer.parseInt(dni.substring(0, 8));
 			String letras = "TRWAGMYFPDXBNJZSQVHLGKE";
@@ -92,16 +93,13 @@ public class Cliente implements Serializable{
 
 			char letraCalc = letras.charAt(posicionLetras);
 			if (letraCalc == dni.charAt(8)) {
-				this.dni = dni;
+				return true;
 
 			} else {
-				System.out.println("DNI incorrecto");
-				this.dni = "no válido";
+				return false;
 			}
-
 		} else {
-			System.out.println("DNI introducido no válido");
-			this.dni = "no válido";
+			return false;
 		}
 	}
 
@@ -109,7 +107,7 @@ public class Cliente implements Serializable{
 		return telefono;
 	}
 
-	public void setTelefono(String telefono) {
+	public boolean setTelefono(String telefono) {
 		if (telefono.length() == 9) {
 			boolean comprobacion = true;
 			for (int i = 0; i < telefono.length(); i++) {
@@ -119,12 +117,12 @@ public class Cliente implements Serializable{
 				}
 			}
 			if (comprobacion) {
-				this.telefono = telefono;
+				return true;
 			} else {
-				System.out.println("El teléfono debe contener solo numeros.");
+				return false;
 			}
 		} else {
-			System.out.println("El teléfono debe tener exactamente 9 dígitos.");
+			return false;
 		}
 	}
 
