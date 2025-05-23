@@ -1,4 +1,5 @@
 package tiendaAOVE;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,9 +12,9 @@ import java.util.Scanner;
 public class App {
 
 	static Scanner entrada = new Scanner(System.in);
-	static ArrayList<Cliente> clientes = new ArrayList<>();  //Este e usado arraylist para guardarlo
-	static ArrayList<Producto> productos = new ArrayList<>(); //Este tambien
-	static ArrayList<Pedido> pedidos = new ArrayList<>();	//Este tambien
+	static ArrayList<Cliente> clientes = new ArrayList<>(); // Este e usado arraylist para guardarlo
+	static ArrayList<Producto> productos = new ArrayList<>(); // Este tambien
+	static ArrayList<Pedido> pedidos = new ArrayList<>(); // Este tambien
 	static Cliente clienteAutenticado = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -56,38 +57,66 @@ public class App {
 				meterDatos();
 				break;
 			case 10:
-				System.out.println("Has salido");
+				cerrarSesion();
+				break;
+			case 11:
+				System.out.println("Has salido de la aplicacion");
 			default:
 				System.out.println("Opcion no valida.");
 			}
 			System.out.println("***************************\n");
-		} while (opcion != 10);
+		} while (opcion != 11);
+	}
+
+	private static void menu() {
+		System.out.println("************************");
+		System.out.println("1.- Añadir nuevo cliente");
+		System.out.println("2.- Iniciar sesion");
+		System.out.println("3.- Mostrar productos");
+		System.out.println("4.- Comprar producto");
+		System.out.println("5.- Añadir valoraciones a los productos");
+		System.out.println("6.- Mostrar pedidos");
+		System.out.println("7.- Mostrar estadisticas");
+		System.out.println("8.- Guardar Datos en archivo");
+		System.out.println("9.- Meter datos en archivo .ser");
+		System.out.println("10.- Cerrar sesion");
+		System.out.println("Salir de la aplicacion");
+		System.out.println("************************");
+	}
+
+	private static void cerrarSesion() {
+		System.out.println("Has cerrado sesion");
+		clienteAutenticado = null;
 	}
 
 	private static void aniadirCliente() {
 		try {
 			if (clienteAutenticado == null) {
-				Cliente c = new Cliente(); 
+				Cliente c = new Cliente();
 				System.out.println("Dime el nombre");
 				String nombre = entrada.nextLine();
-				if(c.setNombre(nombre) == false) throw new IllegalArgumentException("El nombre no puede estar en blanco");
+				if (c.setNombre(nombre) == false)
+					throw new IllegalArgumentException("El nombre no puede estar en blanco");
 
 				System.out.println("Dime los apellidos");
 				String apellidos = entrada.nextLine();
-				if(c.setApellidos(apellidos) == false) throw new IllegalArgumentException("Los apellidos no puede estar en blanco");
+				if (c.setApellidos(apellidos) == false)
+					throw new IllegalArgumentException("Los apellidos no puede estar en blanco");
 
 				System.out.println("Dime el dni");
 				String dni = entrada.nextLine();
-				if(c.setDni(dni) == false) throw new IllegalArgumentException("El dni no es válido");
+				if (c.setDni(dni) == false)
+					throw new IllegalArgumentException("El dni no es válido");
 
 				System.out.println("Dime el telefono");
 				String telefono = entrada.nextLine();
-				if(c.setTelefono(telefono) == false) throw new IllegalArgumentException("El telefono no es valido");
-
+				if (c.setTelefono(telefono) == false)
+					throw new IllegalArgumentException("El telefono no es valido");
 
 				System.out.println("Dime el email");
 				String email = entrada.nextLine();
-				if(c.setEmail(email) == false) throw new IllegalArgumentException("El email no puede estar en blanco");
+				if (c.setEmail(email) == false)
+					throw new IllegalArgumentException("El email no puede estar en blanco");
 
 				if (buscarClientePorEmail(email) != null) {
 					System.out.println("Ya existe un cliente con ese email.");
@@ -96,8 +125,9 @@ public class App {
 
 				System.out.println("Dime la contraseña");
 				String contrasenia = entrada.nextLine();
-				if(contrasenia.isBlank() || contrasenia.isEmpty()) throw new IllegalArgumentException("El apellido no puede estar en blanco");
-				
+				if (contrasenia.isBlank() || contrasenia.isEmpty())
+					throw new IllegalArgumentException("El apellido no puede estar en blanco");
+
 				Cliente c1 = new Cliente(email, contrasenia, nombre, apellidos, dni, telefono);
 				clientes.add(c1);
 				System.out.println("Se ha añadido correctamente");
@@ -109,20 +139,6 @@ public class App {
 			System.out.println("Error.- " + IAE.getMessage());
 		}
 
-	}
-
-	private static void menu() {
-		System.out.println("************************");
-		System.out.println("1.- Añadir nuevo cliente");
-		System.out.println("2.- Iniciar sesion");
-		System.out.println("3.- Mostrar productos");
-		System.out.println("4.- Comprar producto");
-		System.out.println("5.- Añadir valoraciones a los productos");
-		System.out.println("6.- Mostrar pedidos");
-		System.out.println("7.- Guardar Datos en archivo");
-		System.out.println("8.- Meter datos en archivo .ser");
-		System.out.println("9.- Salir");
-		System.out.println("************************");
 	}
 
 	public static void inicioSesion() {
@@ -178,7 +194,7 @@ public class App {
 	}
 
 	private static void comprarProducto() {
-		if (clienteAutenticado == null || !clienteAutenticado.getEmail().equals("administrador")) {
+		if (!(clienteAutenticado == null || !clienteAutenticado.getEmail().equals("administrador"))) {
 			System.out.println("Acceso denegado, es solo para administradores.");
 			return;
 		}
@@ -251,10 +267,9 @@ public class App {
 		}
 		System.out.println("El producto mas caro es " + masCaro + "\n");
 		System.out.println("El mas barato es " + masBarato + "\n");
-		
 
 		Collections.sort(productos, new ComparadorMedia());
-		System.out.println("Producto con la mejor media: " + productos.get(productos.size() -1 ).getNombre());
+		System.out.println("Producto con la mejor media: " + productos.get(productos.size() - 1).getNombre());
 		System.out.println("Producto con la peor media: " + productos.get(0));
 	}
 
@@ -323,15 +338,28 @@ public class App {
 	}
 
 	private static void sacarDatos() throws IOException {
-		FileOutputStream fileOutputStream = new FileOutputStream("SacarDatos.ser");
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-		objectOutputStream.writeObject(clientes);
-		objectOutputStream.flush();
-		objectOutputStream.close();
+		try {
+			System.out.println("Dime el nombre que quieres para el archivo");
+			String nombre = entrada.nextLine();
+			if (nombre.isBlank() || nombre.isEmpty()) {
+				throw new Exception("No puede estar en blanco");
+			}
+			FileOutputStream fileOutputStream = new FileOutputStream(nombre + ".ser");
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(clientes);
+			objectOutputStream.flush();
+			objectOutputStream.close();
+
+		} catch (Exception e) {
+			System.out.println("Error.- " + e.getMessage());
+		}
 	}
 
 	private static void meterDatos() throws IOException, ClassNotFoundException {
-		FileInputStream fileInputStream = new FileInputStream("MeterDatos.ser");
+		try {
+			System.out.println("Dime el nombre que quieres para meter el archivo");
+			String nombre = entrada.nextLine();
+		FileInputStream fileInputStream = new FileInputStream(nombre + ".ser");
 		ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 		@SuppressWarnings("unchecked")
 		ArrayList<Cliente> clientesLeidos = (ArrayList<Cliente>) objectInputStream.readObject();
@@ -340,6 +368,10 @@ public class App {
 		for (int i = 0; i < clientesLeidos.size(); i++) {
 			System.out.println(clientesLeidos.get(i));
 		}
+		} catch (Exception e) {
+			System.out.println("Error.- " + e.getMessage());
+		}
+		
 	}
 
 }
