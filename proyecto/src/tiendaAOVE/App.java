@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class App {
 
 	static Scanner entrada = new Scanner(System.in);
-	static ArrayList<Cliente> clientes = new ArrayList<>();
-	static ArrayList<Producto> productos = new ArrayList<>();
-	static ArrayList<Pedido> pedidos = new ArrayList<>();
+	static ArrayList<Cliente> clientes = new ArrayList<>();  //Este e usado arraylist para guardarlo
+	static ArrayList<Producto> productos = new ArrayList<>(); //Este tambien
+	static ArrayList<Pedido> pedidos = new ArrayList<>();	//Este tambien
 	static Cliente clienteAutenticado = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -251,6 +251,7 @@ public class App {
 		}
 		System.out.println("El producto mas caro es " + masCaro + "\n");
 		System.out.println("El mas barato es " + masBarato + "\n");
+		
 
 		Collections.sort(productos, new ComparadorMedia());
 		System.out.println("Producto con la mejor media: " + productos.get(productos.size() -1 ).getNombre());
