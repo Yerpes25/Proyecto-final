@@ -91,7 +91,7 @@ public class Cliente implements Serializable{
 			int posicionLetras = digitos % 23;
 
 			char letraCalc = letras.charAt(posicionLetras);
-			if (letraCalc == dni.charAt(9)) {
+			if (letraCalc == dni.charAt(8)) {
 				this.dni = dni;
 
 			} else {
